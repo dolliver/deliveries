@@ -85,11 +85,29 @@ POST http://localhost:8080/delivery/maps
 
 The created map with its id will be returned
 
+```
+{
+    "id": 0,
+    "name": "Douglas Test Map"
+}
+```
+
 - Verifiy the shortestDistance between two points and give additional parameters to calculate cost
 
 In this example we will verify on Map of ID 0  (just created), the shortest distance between points A and D, and calculate the cost of the trip in a vehicle of milage 10 km/l with gas price of 2.5 currency units per liter.
 
 GET http://localhost:8080/delivery/maps/0/from/A/to/D?gasPrice=2.5&mileage=10
 
+We can see the result below
+
+```
+{
+    "totalDistance": 25,
+    "fullPath": "[A, B, D]",
+    "mileage": 10,
+    "gasPrice": 2.5,
+    "totalCost": 6.25
+}
+```
 
 
