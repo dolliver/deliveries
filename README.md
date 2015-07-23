@@ -29,6 +29,7 @@ Some of the things I certainly wanted to do (and will do in the future are), whi
 - Make a Swagger API documentation for the APIs
 - Create authentication and verify authorization to access the APIs, store the usernames and their roles, use Spring Security to secure the controller methods
 - Make OAuth flows available since is is required to have APIs, to make them easy to access
+- Written more Unit and integration tests
 
 ### Some Components Used
 - Spring Framework 4.1.7
