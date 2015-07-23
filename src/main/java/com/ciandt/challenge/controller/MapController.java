@@ -1,7 +1,8 @@
 package com.ciandt.challenge.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
@@ -9,18 +10,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ciandt.challenge.controller.dto.CalculatedDistanceDTO;
-import com.ciandt.challenge.controller.dto.MapDTO;
 import com.ciandt.challenge.controller.dto.MapNodeDTO;
-import com.ciandt.challenge.entity.RoutesMap;
+import com.ciandt.challenge.controller.dto.RoutesMapDTO;
 import com.ciandt.challenge.entity.MapNode;
 import com.ciandt.challenge.entity.MapPath;
+import com.ciandt.challenge.entity.RoutesMap;
 import com.ciandt.challenge.repository.MapNodeRepository;
 import com.ciandt.challenge.service.MapNodeService;
 import com.ciandt.challenge.service.RoutesMapService;
+import com.ciandt.challenge.util.ShortestPathCalculator;
 
 @RestController
 @RequestMapping("/maps")
@@ -37,104 +39,70 @@ public class MapController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public MapDTO addNewMap(){
-		RoutesMap map = new RoutesMap();
-		map.setName("A");
+	public RoutesMapDTO addNewMap(@RequestBody RoutesMapDTO mapDTO){
+		
+		//First created a new map
+		RoutesMap map = mapDTO.convertToMap();
 		map = mapService.save(map);
-		return new MapDTO(map);
-	}
-	
-	@RequestMapping(value = "/node", method = RequestMethod.POST)
-	@ResponseBody
-	public MapDTO addNewMapNode(){
-		/*
-		MapNode pontoA = new MapNode("A");
-		pontoA = nodeRepository.save(pontoA);
-		MapNode pontoB = new MapNode("B");
-		pontoB.connectedTo(pontoA, Double.valueOf(10));
-		pontoB = nodeRepository.save(pontoB);
-		MapNode pontoC = new MapNode("C");
-		pontoC.connectedTo(pontoA, Double.valueOf(20));
-		pontoC = nodeRepository.save(pontoC);
-		MapNode pontoD = new MapNode("D");
-		pontoD.connectedTo(pontoB, Double.valueOf(5));
-		pontoD.connectedTo(pontoC, Double.valueOf(5));
-		pontoD = nodeRepository.save(pontoD);
-		*/		
-		MapDTO retorno = new MapDTO();
 		
-		MapNode pontoA = nodeService.save(new MapNode("A"));
-		MapNode pontoB = nodeService.save(new MapNode("B"));
-		MapNode pontoC = nodeService.save(new MapNode("C"));
-		MapNode pontoD = nodeService.save(new MapNode("D"));
-	
-		MapPath ab = pontoA.connectTo(pontoB, Double.valueOf(10));
-		MapPath ac = pontoA.connectTo(pontoC, Double.valueOf(20));
-		MapPath bd = pontoB.connectTo(pontoD, Double.valueOf(5));
-		MapPath cd = pontoC.connectTo(pontoD, Double.valueOf(5));
-		
-		ab = nodeService.savePath(ab);
-		ac = nodeService.savePath(ab);
-		bd = nodeService.savePath(ab);
-		cd = nodeService.savePath(ab);
-
-		
-		//Object teste = nodeService.shortestWay(pontoA.getName(), pontoD.getName());
-		retorno.setId(10000L);
-		
-		MapNode carregado = nodeRepository.findOne(pontoA.getId());
-		return retorno;
-		
-	}
-	
-	@RequestMapping(value = "/{mapId}", method = RequestMethod.PUT)
-	@ResponseBody
-	public CalculatedDistanceDTO updatesMap(@PathVariable("mapId") Long  mapId, @RequestBody MapDTO map){
-		return new CalculatedDistanceDTO("A", null, null, null, null);
-	}
-
-	@RequestMapping(method = RequestMethod.GET)
-	@ResponseBody
-	public List<MapDTO> getAllMaps(){
-		List<RoutesMap> maps = mapService.findAll();
-		
-		List<MapDTO> returnedList = new ArrayList<MapDTO>();
-		if(maps != null && maps.size() > 0) {
-			for(RoutesMap map: maps) {
-				returnedList.add(new MapDTO(map));
+		if(mapDTO.getNodes() != null && mapDTO.getNodes().size() > 0) {
+			Map<String, MapNode> createdNodeList = new HashMap<String, MapNode>();
+			
+			//Saves each individual unique node
+			// if they were saved before, they shouldnt be saved again
+			// but the relation between the nodes will always be saved with their distances
+			for(MapNodeDTO nodeDTO : mapDTO.getNodes()) {
+				
+				//starting point first
+				MapNode startingPoint = createdNodeList.get(nodeDTO.getStartingPoint());
+				if(startingPoint == null) { 
+					startingPoint = new MapNode(nodeDTO.getStartingPoint());
+					startingPoint.setRoutesMapId(map.getId());
+					startingPoint = nodeService.save(startingPoint);
+					createdNodeList.put(nodeDTO.getStartingPoint(), startingPoint);
+				}
+				
+				//destination point first
+				MapNode destinationPoint = createdNodeList.get(nodeDTO.getDestinationPoint());
+				if(destinationPoint == null) { 
+					destinationPoint = new MapNode(nodeDTO.getDestinationPoint());
+					destinationPoint.setRoutesMapId(map.getId());
+					destinationPoint = nodeService.save(destinationPoint);
+					createdNodeList.put(nodeDTO.getDestinationPoint(), destinationPoint);
+				}		
+				
+				//Make weighted connection  (by distance)
+				MapPath path = startingPoint.connectTo(destinationPoint, nodeDTO.getDistance());
+				path = nodeService.savePath(path);
 			}
 		}
 		
-		return returnedList;
+		return new RoutesMapDTO(map);
 	}
 	
-	@RequestMapping(value = "/{mapId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{mapId}/from/{start}/to/{end}", method = RequestMethod.GET)
 	@ResponseBody
-	public CalculatedDistanceDTO getSingleMap(@PathVariable("mapId") Long  mapId){
-		return null;
-	}
-	
-	
-	
-	@RequestMapping(value = "/{mapId}", method = RequestMethod.DELETE)
-	@ResponseBody
-	public CalculatedDistanceDTO deletesMap(@PathVariable("mapId") Long  mapId){
-		return null;
-	}
-	
-	@RequestMapping(value = "/{mapId}/node", method = RequestMethod.PUT)
-	@ResponseBody
-	public CalculatedDistanceDTO addsNodeToExistingMap(@PathVariable("mapId") Long  mapId, @RequestBody MapNodeDTO node){
-		return null;
-	}	
-	
-	@RequestMapping(value = "/{mapId}/node", method = RequestMethod.DELETE)
-	@ResponseBody
-	public CalculatedDistanceDTO removesNodeFromExistingMap(@PathVariable("mapId") Long  mapId){
-		return null;
-	}		
-	
+	public ShortestPathCalculator getShortestPath(@PathVariable("mapId") Long  mapId,
+			@PathVariable("start") String start, @PathVariable("end") String  end,
+			@RequestParam(value="mileage", required=false, defaultValue="10.0") Double mileage,
+			@RequestParam(value="gasPrice", required=false, defaultValue="3.0") Double gasPrice){
+			
+		RoutesMap map = mapService.findById(mapId);
 		
-
-	
+		if(map == null) {
+			throw new NoSuchElementException();			
+		}
+		
+		ShortestPathCalculator shortestPathCalculator = nodeService.getShortestPath( start, end, map.getId());
+		
+		if(shortestPathCalculator == null) {
+			return null;
+		}
+		
+		shortestPathCalculator.setMileage(mileage);
+		shortestPathCalculator.setGasPrice(gasPrice);
+		shortestPathCalculator.calculateCost();		
+		
+		return shortestPathCalculator;
+	}		
 }

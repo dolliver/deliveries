@@ -13,6 +13,8 @@ import com.ciandt.challenge.entity.RoutesMap;
 
 public interface MapNodeRepository extends GraphRepository<MapNode> {
 	
+	
+	//Uses Cypher query on graph database to find the shortest path between the graphs
 	 @Query("START  startNode=node:name(name = {0}), " +
 			   "    endNode=node:name(name = {1}) " +
 			   "    MATCH  p= (startNode)<-[:CONNECTED_TO*]->(endNode)" + 
@@ -25,6 +27,8 @@ public interface MapNodeRepository extends GraphRepository<MapNode> {
 			   "           LIMIT 1;")
 	 ShortestPath getShortestPath(String startNode, String toNode, Long routesMapId);
 	 
+	 
+	 	//Interface used to transform the result in a map with the values needed
 	    @SuppressWarnings("deprecation")
 		@MapResult
 	    public interface ShortestPath {
@@ -38,19 +42,4 @@ public interface MapNodeRepository extends GraphRepository<MapNode> {
 	        List<String> getNodeNames();	        
 	        
 	    }	 
-	 
-	 
-	 /*
-	
-	
-	@Query("START  startNode=node:node_auto_index(name=\"A\"), "+
-		   "    endNode=node:node_auto_index(name=\"B\")     "+
-		   "    MATCH  p=(startNode)-[:CONNECTED_TO*]->(endNode)  "+ 
-		   "    RETURN p AS shortestPath,       "+
-		   "           reduce(distance=0, r in relationships(p) : distance+r.distance) AS totalDistance  "+
-		   "           ORDER BY totalDistance ASC  "+
-		   "           LIMIT 1;")
-	 Iterable<EntityPath<MapNode, MapNode>> shortestWay(Long fromid, Long toid);
-	 */
-
 }

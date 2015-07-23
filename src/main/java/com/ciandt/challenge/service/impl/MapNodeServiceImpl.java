@@ -54,6 +54,13 @@ public class MapNodeServiceImpl implements MapNodeService {
 	public MapPath savePath(MapPath path) {
 		path = template.save(path);
 		return path;
+	}
+
+	@Override
+	@Transactional
+	public MapNode delete(MapNode node) {
+		 template.delete(node);
+		 return node;
 	};
 
 }

@@ -1,5 +1,9 @@
 package com.ciandt.challenge.controller.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ciandt.challenge.entity.MapNode;
 import com.ciandt.challenge.entity.RoutesMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -31,8 +35,5 @@ public class MapNodeDTO {
 	public void setDistance(Double distance) {
 		this.distance = distance;
    }
-		
-	
-	
 
 }

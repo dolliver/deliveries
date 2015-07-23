@@ -14,7 +14,6 @@ public class RoutesMap {
 	String name;
 	Set<MapNode> nodes;
 	
-
 	public RoutesMap() {
 		super();
 	}

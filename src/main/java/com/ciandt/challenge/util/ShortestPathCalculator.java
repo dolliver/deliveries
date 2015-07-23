@@ -5,8 +5,8 @@ public class ShortestPathCalculator {
 	private Double totalDistance;
 	private String fullPath;
 	private Double mileage;
-	private Double gastPrice;
-	
+	private Double gasPrice;
+	private Double totalCost;
 		
 	public ShortestPathCalculator() {
 		super();
@@ -34,11 +34,25 @@ public class ShortestPathCalculator {
 	public void setMileage(Double mileage) {
 		this.mileage = mileage;
 	}
-	public Double getGastPrice() {
-		return gastPrice;
+	public Double getGasPrice() {
+		return gasPrice;
 	}
-	public void setGastPrice(Double gastPrice) {
-		this.gastPrice = gastPrice;
+	public void setGasPrice(Double gasPrice) {
+		this.gasPrice = gasPrice;
+	}
+	
+	public Double getTotalCost() {
+		return totalCost;
+	}
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
+	}
+	public void calculateCost(){
+		if(totalDistance != null && mileage != null && gasPrice != null) {
+			totalCost = totalDistance / mileage * gasPrice;
+		} else {
+			totalCost = null;
+		}
 	}
 	
 	

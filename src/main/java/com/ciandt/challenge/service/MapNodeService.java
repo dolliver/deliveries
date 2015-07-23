@@ -10,6 +10,7 @@ public interface MapNodeService {
 
 	MapNode save(MapNode node);
 	MapPath savePath(MapPath path);
+	MapNode delete(MapNode node);
 	ShortestPathCalculator getShortestPath(String startNode, String toNode, Long routesMapId);
 
 }

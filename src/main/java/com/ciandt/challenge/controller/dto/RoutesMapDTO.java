@@ -9,17 +9,17 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MapDTO {
+public class RoutesMapDTO {
 	
-	private List<MapNodeDTO> nodes;
-	private String name;
 	private Long id;
+	private String name;
+	private List<MapNodeDTO> nodes;
 	
-	public MapDTO() {
+	public RoutesMapDTO() {
 		super();
 	}
 
-	public MapDTO(RoutesMap map) {
+	public RoutesMapDTO(RoutesMap map) {
 		super();
 		this.name = map.getName();
 		this.id = map.getId();
@@ -51,7 +51,20 @@ public class MapDTO {
 	
 	public RoutesMap convertToMap(){
 		RoutesMap convertedMap = new RoutesMap();
-		convertedMap.setName(name);
+		convertedMap.setName(getName());
+		convertedMap.setId(getId());
+		/*
+		if(getNodes() != null && getNodes().size() > 0) {
+			List<MapNode> nodes = new ArrayList<MapNode>();
+			for(MapNodeDTO nodeDTO : getNodes()){
+				if(! nodes.contains(nodeDTO.getStartingPoint())) {
+					nodes.add(new MapNode())
+				}
+				nodes.add(nodeDTO.getStartingPoint())
+			}
+		}
+		*/
+			
 		return convertedMap;
 	}
 	
