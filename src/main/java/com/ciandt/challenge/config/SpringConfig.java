@@ -1,0 +1,26 @@
+package com.ciandt.challenge.config;
+
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.neo4j.config.EnableNeo4jRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+ 
+@Configuration
+@ComponentScan(basePackages = { "com.ciandt.challenge" })
+@EnableWebMvc
+public class SpringConfig {
+ 
+ @Bean
+ public UrlBasedViewResolver setupViewResolver() {
+   UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+   resolver.setPrefix("/WEB-INF/views/");
+   resolver.setSuffix(".jsp");
+   resolver.setViewClass(JstlView.class);
+   return resolver;
+ }
+}
