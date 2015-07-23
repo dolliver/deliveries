@@ -2,7 +2,7 @@ package com.ciandt.challenge.controller.dto;
 
 import java.util.List;
 
-import com.ciandt.challenge.entity.Map;
+import com.ciandt.challenge.entity.RoutesMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -19,7 +19,7 @@ public class MapDTO {
 		super();
 	}
 
-	public MapDTO(Map map) {
+	public MapDTO(RoutesMap map) {
 		super();
 		this.name = map.getName();
 		this.id = map.getId();
@@ -49,8 +49,8 @@ public class MapDTO {
 		this.id = id;
 	}
 	
-	public Map convertToMap(){
-		Map convertedMap = new Map();
+	public RoutesMap convertToMap(){
+		RoutesMap convertedMap = new RoutesMap();
 		convertedMap.setName(name);
 		return convertedMap;
 	}

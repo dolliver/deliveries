@@ -7,25 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ciandt.challenge.entity.Map;
-import com.ciandt.challenge.repository.MapRepository;
-import com.ciandt.challenge.service.MapService;
+import com.ciandt.challenge.entity.RoutesMap;
+import com.ciandt.challenge.repository.RoutesMapRepository;
+import com.ciandt.challenge.service.RoutesMapService;
 
 
 
 @Service
-public class MapServiceImpl implements MapService {
+public class RoutesMapServiceImpl implements RoutesMapService {
 
 	@Autowired
-	MapRepository mapRepository;
+	RoutesMapRepository mapRepository;
 	
 	@Override
-	public Long findShortestRoute() {
-		return null;
-	}
-	
-	@Override
-	public Map save(Map map){
+	@Transactional
+	public RoutesMap save(RoutesMap map){
 		map = mapRepository.save(map);
 		return map;
 	}
@@ -33,8 +29,8 @@ public class MapServiceImpl implements MapService {
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
-	public List<Map> findAll(){
-		return (List<Map>) mapRepository.findAll().as(Collection.class);
+	public List<RoutesMap> findAll(){
+		return (List<RoutesMap>) mapRepository.findAll().as(Collection.class);
 
 	}
 

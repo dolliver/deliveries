@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ciandt.challenge.controller.dto.CalculatedDistanceDTO;
 import com.ciandt.challenge.controller.dto.MapDTO;
 import com.ciandt.challenge.controller.dto.MapNodeDTO;
-import com.ciandt.challenge.entity.Map;
+import com.ciandt.challenge.entity.RoutesMap;
 import com.ciandt.challenge.entity.MapNode;
 import com.ciandt.challenge.entity.MapPath;
 import com.ciandt.challenge.repository.MapNodeRepository;
 import com.ciandt.challenge.service.MapNodeService;
-import com.ciandt.challenge.service.MapService;
+import com.ciandt.challenge.service.RoutesMapService;
 
 @RestController
 @RequestMapping("/maps")
 public class MapController {
 	
 	@Autowired
-	MapService mapService;
+	RoutesMapService mapService;
 	@Autowired
 	MapNodeService nodeService;
 	@Autowired
@@ -38,7 +38,7 @@ public class MapController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public MapDTO addNewMap(){
-		Map map = new Map();
+		RoutesMap map = new RoutesMap();
 		map.setName("A");
 		map = mapService.save(map);
 		return new MapDTO(map);
@@ -79,7 +79,7 @@ public class MapController {
 		cd = nodeService.savePath(ab);
 
 		
-		Object teste = nodeService.shortestWay(pontoA.getName(), pontoD.getName());
+		//Object teste = nodeService.shortestWay(pontoA.getName(), pontoD.getName());
 		retorno.setId(10000L);
 		
 		MapNode carregado = nodeRepository.findOne(pontoA.getId());
@@ -96,11 +96,11 @@ public class MapController {
 	@RequestMapping(method = RequestMethod.GET)
 	@ResponseBody
 	public List<MapDTO> getAllMaps(){
-		List<Map> maps = mapService.findAll();
+		List<RoutesMap> maps = mapService.findAll();
 		
 		List<MapDTO> returnedList = new ArrayList<MapDTO>();
 		if(maps != null && maps.size() > 0) {
-			for(Map map: maps) {
+			for(RoutesMap map: maps) {
 				returnedList.add(new MapDTO(map));
 			}
 		}

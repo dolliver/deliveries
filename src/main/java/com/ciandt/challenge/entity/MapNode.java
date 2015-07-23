@@ -1,8 +1,5 @@
 package com.ciandt.challenge.entity;
 
-
-
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +19,8 @@ public class MapNode {
 	
 	@Indexed(indexType=IndexType.FULLTEXT, indexName = "name")
 	String name;
+	
+    Long routesMapId;  
 
     public MapNode() {
 		super();
@@ -33,8 +32,9 @@ public class MapNode {
 	
     @RelatedTo(type = "CONNECTED_TO", direction = Direction.BOTH)
     Set<MapNode> originNodes;
-	
-	
+    
+  
+    
     public MapPath connectTo(MapNode endNode, Double distance) {
     	MapPath path=new MapPath(distance, this, endNode);
     	paths.add(path);
@@ -62,6 +62,30 @@ public class MapNode {
 	public void setDestinations(Set<MapPath> paths) {
 		this.paths = paths;
 	}
+	public Set<MapPath> getPaths() {
+		return paths;
+	}
+	public void setPaths(Set<MapPath> paths) {
+		this.paths = paths;
+	}
+	public Set<MapNode> getOriginNodes() {
+		return originNodes;
+	}
+	public void setOriginNodes(Set<MapNode> originNodes) {
+		this.originNodes = originNodes;
+	}
+	public Long getRoutesMapId() {
+		return routesMapId;
+	}
+	public void setRoutesMapId(Long routesMapId) {
+		this.routesMapId = routesMapId;
+	}
+
+	
+
+	
+	
+	
 	
 	
     

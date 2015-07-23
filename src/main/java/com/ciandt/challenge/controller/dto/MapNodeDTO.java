@@ -1,6 +1,6 @@
 package com.ciandt.challenge.controller.dto;
 
-import com.ciandt.challenge.entity.Map;
+import com.ciandt.challenge.entity.RoutesMap;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

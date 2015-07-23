@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ciandt.challenge.controller.dto.CalculatedDistanceDTO;
-import com.ciandt.challenge.service.MapService;
+import com.ciandt.challenge.service.RoutesMapService;
 
 public class PointAPIController {
 	
 	@Autowired
-	MapService pointApiService;
+	RoutesMapService pointApiService;
 
 	@RequestMapping(value = "/{startingPoint}/to/{destinationPoint}", method = RequestMethod.DELETE)
 	@ResponseBody
