@@ -44,6 +44,11 @@ Some of the things I certainly wanted to do (and will do in the future are), whi
 git clone git@github.com:dolliver/deliveries.git
 ```
 
+- Ender project dir
+```
+cd deliveries
+```
+
 - Build project
 ```
 mvn clean install
