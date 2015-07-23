@@ -10,7 +10,15 @@
 
 	<properties>
 		<spring.version>4.1.7.RELEASE</spring.version>
+		<springtest.version>4.0.5.RELEASE</springtest.version>	
+		<springdata.version>1.8.1.RELEASE</springdata.version>	
+		<springdataneo4j.version>3.3.1.RELEASE</springdataneo4j.version>			
 		<junit.version>4.11</junit.version>
+		<tomcat.version>2.2</tomcat.version>		
+		<cglib.version>2.2.2</cglib.version>	
+		<javaxservlet.version>3.0.1</javaxservlet.version>
+		<jackson.version>2.1.0</jackson.version>
+		<javaxvalidation.version>1.1.0.Final</javaxvalidation.version>
 	</properties>
 
 	<dependencies>
@@ -20,40 +28,32 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
-					
-			<dependency>
-				<groupId>cglib</groupId>
-				<artifactId>cglib</artifactId>
-				<version>2.2.2</version>
-			</dependency>
+
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${cglib.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>4.0.5.RELEASE</version>
+			<version>${springtest.version}</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
@@ -64,46 +64,45 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
-		</dependency>
+		</dependency>		
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${springdata.version}</version>
+		</dependency>		
+		
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-neo4j</artifactId>
+			<version>${springdataneo4j.version}</version>
+		</dependency>		
 
 		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-websocket</artifactId>
-			<version>8.0.8</version>
-			<scope>test</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javaxservlet.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.1.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-						<version>2.1.0</version>
+			<version>${jackson.version}</version>
 		</dependency>
-		
-		
-		    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-jpa</artifactId>
-        <version>1.8.1.RELEASE</version>
-    </dependency>
 
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-neo4j</artifactId>
-        <version>3.3.1.RELEASE</version>
-    </dependency>
-
-<dependency>
-    <groupId>javax.validation</groupId>
-    <artifactId>validation-api</artifactId>
-    <version>1.1.0.Final</version>
-    <scope>runtime</scope>
-</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${javaxvalidation.version}</version>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
 	<build>
@@ -112,12 +111,11 @@
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
+				<version>${tomcat.version}</version>
 				<configuration>
 					<port>8080</port>
 					<path>/delivery</path>
 					<uriEncoding>UTF-8</uriEncoding>
-
 				</configuration>
 			</plugin>
 		</plugins>
