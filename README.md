@@ -48,8 +48,7 @@ mvn tomcat7:run
 
 - Create a new map
 
-POST http://localhost:8080/delivery/maps
-(Header) Content-type: application/json
+POST http://localhost:8080/delivery/maps  -  (Header) Content-type: application/json
 ```
 {
   "name": "Douglas Test Map",
