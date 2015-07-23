@@ -21,13 +21,21 @@ It is understood that big companies have big customers and chances are the the p
 
 - The database will be persisted and lies inside /target folder. The application can be stopped and started, the data won't be loss. However, upon building the project (clean&install), it will be cleared, since it is inside /target folder. The Path can be changed on Neo4jConfig class so it is not cleared, but once again to fastly test and run the project, it was kept that way.
 
-- There was VERY little time to execute this project. I wish I could have done more user interfaces (UI), written more tests, have a SWAGGER documentation for APIs and so on, but I spend a lot of time thinking of the best way to complete the project and getting it to work - so I kept it simple to complete the deadline in 24hs. Besides, it was a week day so didn't have much of a change to do it during the day - just at night and overnight.
+- There was VERY little time to execute this project. I wish I could have done a lot more things, but I spend a lot of time thinking of the best way to complete the project and getting it to work - so I kept it simple to complete the deadline in 24hs. Besides, it was a week day so didn't have much of a change to do it during the day - just at night and overnight.
+Some of the things I certainly wanted to do (and will do in the future are), which I am used to doing in other projects are listed below. Please understand I had very little time, wanted to do it a lot, but had to prioritize having a working project first. The examples are
+- GUI to create maps and consult distance costs
+- Cache API calls to obtain the distance and invalidate the cache once a map is updated (or received new nodes), to gain performance  (ehCache would be enough for this simple project)
+- Execute and evidence stress tests with Jmeter on the APIs
+- Make a Swagger API documentation for the APIs
+- Create authentication and verify authorization to access the APIs, store the usernames and their roles, use Spring Security to secure the controller methods
+- Make OAuth flows available since is is required to have APIs, to make them easy to access
 
 ### Some Components Used
 - Spring Framework 4.1.7
 - Junit  4.11
 - Embedded Tomcat 7
 - Spring-data-neo4j 3.3.1  (and embedded NeoJ graphDatabase)
+- Apache Maven
 
 
 ### How to test
